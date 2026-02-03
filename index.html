@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Check Your Eligibility - Playful Rewards</title>
+    <title>Check Your Eligibility</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -625,20 +625,17 @@
                     <div class="eligibility-icon">✓</div>
                     <span>You're Eligible!</span>
                 </div>
-                <p class="eligibility-subtitle">Start playing today - spots are limited</p>
+                <p class="eligibility-subtitle">Redirecting...</p>
             `;
             eligibilityMessage.classList.add('visible');
             
-            // Show the continue button
-            document.getElementById('continueBtn').classList.add('visible');
-            
-            // Auto-scroll to Continue button
-            setTimeout(() => {
-                document.getElementById('continueBtn').scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 100);
-            
             // Hide "different country" link
             document.getElementById('differentCountry').classList.add('hidden');
+            
+            // Redirect after 1 second
+            setTimeout(() => {
+                window.location.href = 'https://play-lander.vercel.app';
+            }, 1000);
         }
 
         function showNotEligible() {
