@@ -4,6 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Check Your Eligibility</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7V6NWBSEVK"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-7V6NWBSEVK');
+      
+      // Track prelander view
+      gtag('event', 'prelander_view', {
+        'event_category': 'funnel',
+        'event_label': 'prelander'
+      });
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -254,19 +268,8 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            margin-bottom: 16px;
-            animation: fadeInUp 0.6s ease-out 0.5s both;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            margin-bottom: 20px;
+            animation: fadeInDown 0.6s ease-out 0.5s both;
         }
 
         .country-option {
@@ -274,24 +277,29 @@
             align-items: center;
             justify-content: space-between;
             padding: 14px 18px;
-            background: #f9f9f9;
-            border: 2px solid #e5e5e5;
+            background: #f8f8f8;
+            border: 2px solid #eee;
             border-radius: 14px;
             cursor: pointer;
             transition: all 0.3s ease;
-            position: relative;
         }
 
         .country-option:hover {
             border-color: var(--accent-purple);
-            background: #f5f3ff;
-            transform: translateX(4px);
+            background: #f5f0ff;
         }
 
         .country-option.selected {
             border-color: var(--accent-purple);
-            background: linear-gradient(135deg, #f5f3ff 0%, #faf8ff 100%);
-            box-shadow: 0 4px 15px rgba(107, 70, 255, 0.2);
+            background: linear-gradient(135deg, #f5f0ff 0%, #ebe3ff 100%);
+        }
+
+        .country-option.selected .arrow {
+            display: none;
+        }
+
+        .country-option.selected .checkmark {
+            display: flex;
         }
 
         .country-info {
@@ -301,7 +309,7 @@
         }
 
         .flag {
-            font-size: 24px;
+            font-size: 26px;
         }
 
         .country-name {
@@ -311,57 +319,58 @@
         }
 
         .arrow {
+            color: #bbb;
             font-size: 18px;
-            color: #ccc;
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease;
         }
 
         .country-option:hover .arrow {
+            transform: translateX(4px);
             color: var(--accent-purple);
-            transform: translateX(3px);
         }
 
         .checkmark {
-            position: absolute;
-            right: 18px;
-            font-size: 20px;
-            color: var(--success-green);
-            opacity: 0;
-            transform: scale(0);
-            transition: all 0.3s ease;
-        }
-
-        .country-option.selected .checkmark {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .country-option.selected .arrow {
-            opacity: 0;
+            display: none;
+            width: 24px;
+            height: 24px;
+            background: var(--accent-purple);
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
         }
 
         .eligibility-message {
             text-align: center;
-            padding: 18px;
-            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8f4 100%);
-            border: 2px solid var(--success-green);
+            padding: 16px;
+            background: linear-gradient(135deg, #f0fff5 0%, #e0ffec 100%);
+            border: 2px solid #a8e6c1;
             border-radius: 14px;
-            margin-bottom: 16px;
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: all 0.4s ease;
+            margin-bottom: 20px;
             display: none;
         }
 
         .eligibility-message.visible {
-            opacity: 1;
-            transform: translateY(0);
             display: block;
+            animation: fadeInUp 0.4s ease-out;
         }
 
         .eligibility-message.not-eligible {
-            background: linear-gradient(135deg, #ffebee 0%, #fef5f5 100%);
-            border-color: #d32f2f;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%);
+            border-color: #e6a8a8;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .eligibility-title {
@@ -376,46 +385,46 @@
             width: 28px;
             height: 28px;
             background: var(--success-green);
-            color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
-            font-weight: 700;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
         }
 
         .eligibility-message.not-eligible .eligibility-icon {
-            background: #d32f2f;
+            background: #d94444;
         }
 
         .eligibility-title span {
+            font-size: 18px;
             font-weight: 700;
-            font-size: 16px;
             color: var(--success-green);
         }
 
         .eligibility-message.not-eligible .eligibility-title span {
-            color: #d32f2f;
+            color: #d94444;
         }
 
         .eligibility-subtitle {
-            font-size: 12px;
+            font-size: 13px;
             color: #666;
         }
 
         .cta-button {
             display: none;
             width: 100%;
-            padding: 16px;
+            padding: 18px 32px;
             background: linear-gradient(135deg, var(--accent-purple) 0%, #5537d9 100%);
+            color: white;
             border: none;
             border-radius: 14px;
-            color: white;
-            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
             font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            letter-spacing: 0.5px;
             text-decoration: none;
             text-align: center;
             cursor: pointer;
@@ -609,6 +618,12 @@
 
     <script>
         function selectCountry(element, isEligible) {
+            // Track country selection
+            gtag('event', 'prelander_click', {
+                'event_category': 'funnel',
+                'event_label': 'country_selected'
+            });
+            
             // Remove selected class from all options
             document.querySelectorAll('.country-option').forEach(option => {
                 option.classList.remove('selected');
