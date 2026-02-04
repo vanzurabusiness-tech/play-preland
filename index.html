@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Check Your Eligibility</title>
+    <title>Get Paid to Play Games!</title>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7V6NWBSEVK"></script>
     <script>
@@ -12,12 +12,13 @@
       gtag('js', new Date());
       gtag('config', 'G-7V6NWBSEVK');
       
-      // Track prelander view
+      // Track prelander view on load
       gtag('event', 'prelander_view', {
         'event_category': 'funnel',
         'event_label': 'prelander'
       });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/twemoji@14.0.2/dist/twemoji.min.js" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -26,6 +27,15 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        /* Twemoji styling */
+        img.emoji {
+            height: 1em;
+            width: 1em;
+            margin: 0 .05em 0 .1em;
+            vertical-align: -0.1em;
+            display: inline-block;
         }
 
         :root {
@@ -39,44 +49,29 @@
             --text-secondary: #b8a9d9;
             --text-tertiary: #7a6b99;
             --border-color: #3d2a5f;
-            --success-green: #1a7f4e;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(180deg, var(--bg-primary) 0%, #1a0f2e 50%, var(--bg-primary) 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            position: relative;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
             overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
         }
 
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                radial-gradient(ellipse at 20% 20%, rgba(107, 70, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 80%, rgba(139, 102, 255, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(255, 215, 0, 0.03) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        /* Floating Coins */
+        /* Floating Coins Background */
         .floating-coin {
-            position: absolute;
+            position: fixed;
             width: 20px;
             height: 20px;
             background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffa500 100%);
             border-radius: 50%;
-            opacity: 0.15;
-            animation: floatCoin linear infinite;
+            opacity: 0.08;
+            animation: float-bg linear infinite;
+            z-index: 0;
+            pointer-events: none;
         }
 
         .floating-coin::before {
@@ -90,35 +85,54 @@
             color: #ff8c00;
         }
 
-        @keyframes floatCoin {
+        @keyframes float-bg {
             0% {
                 transform: translateY(-10vh) rotate(0deg);
-                opacity: 0.15;
+                opacity: 0.08;
             }
             100% {
                 transform: translateY(110vh) rotate(360deg);
-                opacity: 0.05;
+                opacity: 0.03;
             }
         }
 
-        .container {
-            width: 100%;
-            max-width: 420px;
+        /* ============================================
+           PRELANDER SECTION
+           ============================================ */
+        #prelander {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
             position: relative;
             z-index: 1;
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
-        .card {
-            background: var(--text-primary);
+        #prelander.hidden {
+            opacity: 0;
+            transform: translateY(-30px);
+            pointer-events: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .prelander-card {
+            width: 100%;
+            max-width: 420px;
+            background: var(--bg-secondary);
             border-radius: 24px;
             padding: 40px 32px;
             box-shadow: 
-                0 25px 80px rgba(107, 70, 255, 0.4),
-                0 10px 30px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+                0 25px 80px rgba(107, 70, 255, 0.3),
+                0 10px 30px rgba(0, 0, 0, 0.5);
             position: relative;
             overflow: hidden;
             animation: cardFloat 0.8s ease-out;
+            border: 1px solid var(--border-color);
         }
 
         @keyframes cardFloat {
@@ -132,7 +146,7 @@
             }
         }
 
-        .card::before {
+        .prelander-card::before {
             content: '';
             position: absolute;
             top: 0;
@@ -142,24 +156,12 @@
             background: linear-gradient(90deg, var(--accent-purple), var(--accent-gold), var(--accent-purple));
         }
 
-        .logo-container {
+        .prelander-logo {
             text-align: center;
             margin-bottom: 20px;
-            animation: fadeInDown 0.6s ease-out 0.2s both;
         }
 
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .logo-box {
+        .prelander-logo-box {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -167,101 +169,62 @@
             height: 70px;
             background: linear-gradient(135deg, var(--accent-purple) 0%, #4a2fd9 100%);
             border-radius: 18px;
-            position: relative;
             box-shadow: 0 8px 30px rgba(107, 70, 255, 0.4);
         }
 
-        .logo-p {
+        .prelander-logo-p {
             font-size: 44px;
             font-weight: 900;
             color: white;
             transform: scaleX(1.1);
         }
 
-        .brand-name {
+        .prelander-brand {
             font-size: 14px;
             font-weight: 700;
-            color: var(--bg-primary);
+            color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 3px;
             margin-top: 8px;
         }
 
-        .step-indicator {
+        .prelander-social {
             text-align: center;
             margin-bottom: 20px;
-            animation: fadeInDown 0.6s ease-out 0.25s both;
         }
 
-        .step-text {
+        .prelander-social p {
             font-size: 12px;
-            font-weight: 600;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 10px;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 6px;
-            background: #eee;
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            width: 33%;
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-purple), var(--accent-gold));
-            border-radius: 3px;
-            transition: width 0.5s ease;
-        }
-
-        .social-proof {
-            text-align: center;
-            margin-bottom: 20px;
-            animation: fadeInDown 0.6s ease-out 0.3s both;
-        }
-
-        .social-proof p {
-            font-size: 12px;
-            color: #666;
+            color: var(--text-tertiary);
             font-style: italic;
         }
 
-        .headline {
+        .prelander-headline {
             text-align: center;
             margin-bottom: 10px;
-            animation: fadeInDown 0.6s ease-out 0.35s both;
         }
 
-        .headline h1 {
+        .prelander-headline h1 {
             font-size: 26px;
             font-weight: 800;
-            color: var(--bg-primary);
+            color: var(--text-primary);
             line-height: 1.3;
-            letter-spacing: -0.5px;
         }
 
-        .subtitle {
+        .prelander-subtitle {
             text-align: center;
-            color: #666;
+            color: var(--text-secondary);
             font-size: 13px;
-            font-weight: 400;
             margin-bottom: 24px;
-            letter-spacing: 0.3px;
             line-height: 1.5;
-            animation: fadeInDown 0.6s ease-out 0.4s both;
         }
 
-        .question {
+        .prelander-question {
             text-align: center;
             font-weight: 600;
             font-size: 14px;
-            color: var(--bg-primary);
+            color: var(--text-primary);
             margin-bottom: 16px;
-            animation: fadeInDown 0.6s ease-out 0.45s both;
         }
 
         .country-options {
@@ -269,7 +232,6 @@
             flex-direction: column;
             gap: 10px;
             margin-bottom: 20px;
-            animation: fadeInDown 0.6s ease-out 0.5s both;
         }
 
         .country-option {
@@ -277,29 +239,21 @@
             align-items: center;
             justify-content: space-between;
             padding: 14px 18px;
-            background: #f8f8f8;
-            border: 2px solid #eee;
-            border-radius: 14px;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .country-option:hover {
             border-color: var(--accent-purple);
-            background: #f5f0ff;
+            background: rgba(107, 70, 255, 0.1);
         }
 
         .country-option.selected {
-            border-color: var(--accent-purple);
-            background: linear-gradient(135deg, #f5f0ff 0%, #ebe3ff 100%);
-        }
-
-        .country-option.selected .arrow {
-            display: none;
-        }
-
-        .country-option.selected .checkmark {
-            display: flex;
+            border-color: #22c55e;
+            background: rgba(34, 197, 94, 0.1);
         }
 
         .country-info {
@@ -309,18 +263,18 @@
         }
 
         .flag {
-            font-size: 26px;
+            font-size: 24px;
         }
 
         .country-name {
             font-weight: 600;
             font-size: 15px;
-            color: var(--bg-primary);
+            color: var(--text-primary);
         }
 
         .arrow {
-            color: #bbb;
             font-size: 18px;
+            color: var(--text-tertiary);
             transition: transform 0.3s ease;
         }
 
@@ -329,48 +283,39 @@
             color: var(--accent-purple);
         }
 
-        .checkmark {
+        .country-option .checkmark {
             display: none;
-            width: 24px;
-            height: 24px;
-            background: var(--accent-purple);
-            border-radius: 50%;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
+            color: #22c55e;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .country-option.selected .arrow {
+            display: none;
+        }
+
+        .country-option.selected .checkmark {
+            display: block;
         }
 
         .eligibility-message {
             text-align: center;
             padding: 16px;
-            background: linear-gradient(135deg, #f0fff5 0%, #e0ffec 100%);
-            border: 2px solid #a8e6c1;
-            border-radius: 14px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 12px;
             margin-bottom: 20px;
             display: none;
         }
 
         .eligibility-message.visible {
             display: block;
-            animation: fadeInUp 0.4s ease-out;
+            animation: fadeIn 0.3s ease;
         }
 
-        .eligibility-message.not-eligible {
-            background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%);
-            border-color: #e6a8a8;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .eligibility-title {
@@ -378,190 +323,587 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .eligibility-icon {
-            width: 28px;
-            height: 28px;
-            background: var(--success-green);
+            width: 24px;
+            height: 24px;
+            background: #22c55e;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
             font-size: 14px;
-            font-weight: bold;
-        }
-
-        .eligibility-message.not-eligible .eligibility-icon {
-            background: #d94444;
+            color: white;
         }
 
         .eligibility-title span {
-            font-size: 18px;
             font-weight: 700;
-            color: var(--success-green);
-        }
-
-        .eligibility-message.not-eligible .eligibility-title span {
-            color: #d94444;
+            font-size: 16px;
+            color: #22c55e;
         }
 
         .eligibility-subtitle {
             font-size: 13px;
-            color: #666;
+            color: var(--text-secondary);
         }
 
-        .cta-button {
-            display: none;
-            width: 100%;
-            padding: 18px 32px;
-            background: linear-gradient(135deg, var(--accent-purple) 0%, #5537d9 100%);
-            color: white;
-            border: none;
-            border-radius: 14px;
-            font-family: 'Inter', sans-serif;
-            font-size: 16px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-decoration: none;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 14px;
-            animation: pulseGlow 2s ease-in-out infinite;
-            box-shadow: 0 4px 20px rgba(107, 70, 255, 0.4);
+        .eligibility-message.not-eligible {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
         }
 
-        .cta-button.visible {
-            display: block;
+        .eligibility-message.not-eligible .eligibility-icon {
+            background: #ef4444;
         }
 
-        @keyframes pulseGlow {
-            0%, 100% {
-                box-shadow: 0 4px 20px rgba(107, 70, 255, 0.4);
-            }
-            50% {
-                box-shadow: 0 4px 30px rgba(107, 70, 255, 0.6), 0 0 40px rgba(107, 70, 255, 0.3);
-            }
-        }
-
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .cta-button:hover {
-            background: linear-gradient(135deg, #5537d9 0%, var(--accent-purple) 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(107, 70, 255, 0.5);
-        }
-
-        .cta-button:hover::before {
-            left: 100%;
+        .eligibility-message.not-eligible .eligibility-title span {
+            color: #ef4444;
         }
 
         .different-country {
             text-align: center;
-            color: #999;
+            color: var(--text-tertiary);
             font-size: 12px;
             margin-bottom: 20px;
             cursor: pointer;
             transition: color 0.3s ease;
-            animation: fadeInUp 0.6s ease-out 0.6s both;
         }
 
         .different-country:hover {
-            color: #666;
+            color: var(--text-secondary);
         }
 
         .different-country.hidden {
             display: none;
         }
 
-        .terms {
+        .prelander-terms {
             padding-top: 16px;
-            border-top: 1px solid #eee;
-            animation: fadeInUp 0.6s ease-out 0.7s both;
+            border-top: 1px solid var(--border-color);
         }
 
-        .terms p {
+        .prelander-terms p {
             font-size: 10px;
-            color: #999;
+            color: var(--text-tertiary);
             text-align: center;
             line-height: 1.6;
-            letter-spacing: 0.2px;
         }
 
+        /* ============================================
+           LANDER SECTION
+           ============================================ */
+        #lander {
+            display: none;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        #lander.visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            padding: 12px 0 15px;
+            text-align: center;
+        }
+
+        .logo-container {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #6b46ff 0%, #4a2fd9 100%);
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 8px 40px rgba(107, 70, 255, 0.4);
+            overflow: visible;
+        }
+
+        .logo-p {
+            font-size: 52px;
+            font-weight: 900;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            z-index: 2;
+            transform: scaleX(1.1);
+        }
+
+        /* Animated Coins around logo */
+        .coin {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffa500 100%);
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.5);
+            animation: float-coin 3s ease-in-out infinite;
+        }
+
+        .coin::before {
+            content: '$';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 14px;
+            font-weight: 700;
+            color: #ff8c00;
+        }
+
+        .coin:nth-child(1) { top: -10px; left: -15px; animation-delay: 0s; }
+        .coin:nth-child(2) { top: 10px; right: -20px; animation-delay: 0.5s; width: 20px; height: 20px; }
+        .coin:nth-child(2)::before { font-size: 12px; }
+        .coin:nth-child(3) { bottom: -10px; left: -10px; animation-delay: 1s; width: 28px; height: 28px; }
+        .coin:nth-child(3)::before { font-size: 16px; }
+        .coin:nth-child(4) { bottom: 15px; right: -15px; animation-delay: 1.5s; width: 22px; height: 22px; }
+        .coin:nth-child(4)::before { font-size: 13px; }
+        .coin:nth-child(5) { top: -15px; right: 10px; animation-delay: 2s; width: 18px; height: 18px; }
+        .coin:nth-child(5)::before { font-size: 11px; }
+
+        @keyframes float-coin {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(180deg); }
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 {
+            font-size: 32px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        .bonus-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);
+            color: #000;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-top: 10px;
+            animation: pulse-badge 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-badge {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .app-stores {
+            text-align: center;
+            margin-top: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .app-stores span {
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+        
+        .store-badges {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        
+        .store-badge {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        
+        .cta-bottom {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Trust Badge */
+        .trust-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 10px 16px;
+            border-radius: 30px;
+            margin: 10px auto 20px;
+        }
+
+        .trustpilot-text {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            font-weight: 500;
+        }
+
+        .stars {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .star {
+            color: #22c55e;
+            font-size: 16px;
+        }
+
+        .rating {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-left: 4px;
+        }
+
+        /* Games Section */
+        .games-section {
+            margin-bottom: 20px;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .game-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-purple);
+            box-shadow: 0 10px 30px rgba(107, 70, 255, 0.2);
+        }
+
+        .game-artwork {
+            margin-bottom: 10px;
+        }
+
+        .game-image {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto;
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .game-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+
+        .game-card h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .earn-text {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            margin-bottom: 2px;
+        }
+
+        .game-amount {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--accent-gold);
+        }
+
+        /* CTA Button */
+        .cta-button {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent-purple) 0%, #4a2fd9 100%);
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            padding: 16px;
+            border-radius: 14px;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(107, 70, 255, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(107, 70, 255, 0.5);
+        }
+
+        /* Steps Section */
+        .steps-section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 24px 20px;
+            margin-bottom: 20px;
+        }
+
+        .steps-section h2 {
+            font-size: 18px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-icon {
+            flex-shrink: 0;
+            width: 44px;
+            height: 44px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .step-content h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .step-content p {
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+
+        /* Features */
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .feature-tag {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .feature-icon {
+            font-size: 14px;
+        }
+
+        /* Responsive */
         @media (max-width: 480px) {
-            .card {
+            .prelander-card {
                 padding: 32px 24px;
             }
             
-            .logo-box {
+            .prelander-logo-box {
                 width: 60px;
                 height: 60px;
             }
 
-            .logo-p {
+            .prelander-logo-p {
                 font-size: 38px;
             }
 
-            .brand-name {
+            .prelander-brand {
                 font-size: 12px;
                 letter-spacing: 2px;
             }
             
-            .headline h1 {
+            .prelander-headline h1 {
                 font-size: 23px;
             }
 
             .country-option {
                 padding: 12px 16px;
             }
+
+            .container {
+                padding: 0 16px;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+            .hero p {
+                font-size: 15px;
+            }
+
+            .games-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+
+            .game-card {
+                padding: 14px;
+            }
+
+            .game-card h3 {
+                font-size: 13px;
+            }
+
+            .game-amount {
+                font-size: 28px;
+            }
+
+            .steps-section {
+                padding: 20px 16px;
+            }
+
+            .steps-section h2 {
+                font-size: 20px;
+            }
+
+            .step {
+                gap: 12px;
+                margin-bottom: 16px;
+            }
+
+            .step-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+
+            .step-content h3 {
+                font-size: 15px;
+            }
+
+            .step-content p {
+                font-size: 12px;
+            }
+
+            .cta-button {
+                font-size: 16px;
+                padding: 15px;
+            }
+
+            .features {
+                gap: 8px;
+                padding-bottom: 0;
+            }
+
+            .feature-tag {
+                font-size: 11px;
+                padding: 7px 12px;
+            }
+
+            .trust-badge {
+                margin: 10px auto 16px;
+                padding: 8px 14px;
+            }
+
+            .trustpilot-text {
+                font-size: 11px;
+            }
+
+            .star {
+                font-size: 14px;
+            }
+
+            .rating {
+                font-size: 11px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Floating Coins -->
-    <div class="floating-coin" style="top: 5%; left: 10%; animation-duration: 20s;"></div>
-    <div class="floating-coin" style="top: 15%; right: 15%; animation-duration: 25s; animation-delay: 2s;"></div>
-    <div class="floating-coin" style="bottom: 20%; left: 20%; animation-duration: 22s; animation-delay: 4s;"></div>
-    <div class="floating-coin" style="bottom: 10%; right: 10%; animation-duration: 24s; animation-delay: 6s;"></div>
-    <div class="floating-coin" style="top: 50%; left: 5%; animation-duration: 23s; animation-delay: 8s;"></div>
+    <!-- Animated Floating Coins -->
+    <div class="floating-coins" aria-hidden="true"></div>
 
-    <div class="container">
-        <div class="card">
-            <div class="logo-container">
-                <div class="logo-box">
-                    <div class="logo-p">P</div>
+    <!-- ============================================
+         PRELANDER SECTION
+         ============================================ -->
+    <section id="prelander">
+        <div class="prelander-card">
+            <div class="prelander-logo">
+                <div class="prelander-logo-box">
+                    <div class="prelander-logo-p">P</div>
                 </div>
-                <div class="brand-name">Playful Rewards</div>
+                <div class="prelander-brand">Playful Rewards</div>
             </div>
 
-            <div class="social-proof">
+            <div class="prelander-social">
                 <p>Others in your area are already playing</p>
             </div>
 
-            <div class="headline">
+            <div class="prelander-headline">
                 <h1>Check Your Eligibility</h1>
             </div>
 
-            <p class="subtitle">Select your location to see if this offer is available in your area.</p>
+            <p class="prelander-subtitle">Select your location to see if this offer is available in your area.</p>
 
-            <p class="question">Where are you located?</p>
+            <p class="prelander-question">Where are you located?</p>
 
             <div class="country-options">
-                <div class="country-option" onclick="selectCountry(this, true)">
+                <div class="country-option" onclick="selectCountry(this)">
                     <div class="country-info">
                         <span class="flag">🇺🇸</span>
                         <span class="country-name">United States</span>
@@ -570,7 +912,7 @@
                     <div class="checkmark">✓</div>
                 </div>
 
-                <div class="country-option" onclick="selectCountry(this, true)">
+                <div class="country-option" onclick="selectCountry(this)">
                     <div class="country-info">
                         <span class="flag">🇨🇦</span>
                         <span class="country-name">Canada</span>
@@ -579,7 +921,7 @@
                     <div class="checkmark">✓</div>
                 </div>
 
-                <div class="country-option" onclick="selectCountry(this, true)">
+                <div class="country-option" onclick="selectCountry(this)">
                     <div class="country-info">
                         <span class="flag">🇬🇧</span>
                         <span class="country-name">United Kingdom</span>
@@ -588,7 +930,7 @@
                     <div class="checkmark">✓</div>
                 </div>
 
-                <div class="country-option" onclick="selectCountry(this, true)">
+                <div class="country-option" onclick="selectCountry(this)">
                     <div class="country-info">
                         <span class="flag">🇦🇺</span>
                         <span class="country-name">Australia</span>
@@ -603,27 +945,160 @@
                     <div class="eligibility-icon">✓</div>
                     <span>You're Eligible!</span>
                 </div>
-                <p class="eligibility-subtitle">Start playing today - spots are limited</p>
+                <p class="eligibility-subtitle">Redirecting...</p>
             </div>
-
-            <a href="https://play-lander.vercel.app" class="cta-button" id="continueBtn">Continue</a>
 
             <p class="different-country" id="differentCountry" onclick="showNotEligible()">I'm in a different country</p>
 
-            <div class="terms">
+            <div class="prelander-terms">
                 <p>By continuing, you agree to participate in the program. Availability may vary by location.</p>
             </div>
         </div>
-    </div>
+    </section>
+
+    <!-- ============================================
+         LANDER SECTION
+         ============================================ -->
+    <section id="lander">
+        <div class="container">
+            <header>
+                <div class="logo-container">
+                    <div class="coin"></div>
+                    <div class="coin"></div>
+                    <div class="coin"></div>
+                    <div class="coin"></div>
+                    <div class="coin"></div>
+                    <div class="logo-p">P</div>
+                </div>
+            </header>
+
+            <section class="hero">
+                <h1>Get Paid to Play<br>Your Favorite Games!</h1>
+                <p>Download the free app and start earning real cash today.</p>
+                <div class="bonus-badge">🎁 Get $5 Bonus on Sign Up!</div>
+            </section>
+
+            <section class="games-section">
+                <div class="games-grid">
+                    <div class="game-card">
+                        <div class="game-artwork">
+                            <div class="game-image dice-dreams-img">
+                                <img src="images/dice_dreams.jpg" alt="Dice Dreams">
+                            </div>
+                        </div>
+                        <h3>Dice Dreams</h3>
+                        <p class="earn-text">Earn up to</p>
+                        <div class="game-amount">$126</div>
+                    </div>
+
+                    <div class="game-card">
+                        <div class="game-artwork">
+                            <div class="game-image domino-img">
+                                <img src="images/domino_dreams.png" alt="Domino Dreams">
+                            </div>
+                        </div>
+                        <h3 style="font-size: 12px;">Domino Dreams</h3>
+                        <p class="earn-text">Earn up to</p>
+                        <div class="game-amount">$212</div>
+                    </div>
+
+                    <div class="game-card">
+                        <div class="game-artwork">
+                            <div class="game-image solitaire-img">
+                                <img src="images/solitaire_cash.png" alt="Solitaire Cash">
+                            </div>
+                        </div>
+                        <h3>Solitaire Cash</h3>
+                        <p class="earn-text">Earn up to</p>
+                        <div class="game-amount">$189</div>
+                    </div>
+                </div>
+            </section>
+
+            <a href="https://glctrk.org/aff_c?offer_id=2691&aff_id=167172" class="cta-button" onclick="trackCTAClick()">
+                📲 Download Free App
+            </a>
+            
+            <div class="app-stores">
+                <span>Available on</span>
+                <div class="store-badges">
+                    <span class="store-badge">🍎 iOS</span>
+                    <span class="store-badge">🤖 Android</span>
+                </div>
+            </div>
+
+            <section class="steps-section">
+                <h2>Start Earning in 3 Easy Steps</h2>
+                
+                <div class="step">
+                    <div class="step-icon">📲</div>
+                    <div class="step-content">
+                        <h3>1. Download the free app</h3>
+                        <p>Takes less than 1 minute</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-icon">✅</div>
+                    <div class="step-content">
+                        <h3>2. Sign up & get $5 bonus</h3>
+                        <p>Just email + password, that's it</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-icon">💰</div>
+                    <div class="step-content">
+                        <h3>3. Play games & cash out</h3>
+                        <p>Withdraw anytime via PayPal</p>
+                    </div>
+                </div>
+            </section>
+            
+            <a href="https://glctrk.org/aff_c?offer_id=2691&aff_id=167172" class="cta-button cta-bottom" onclick="trackCTAClick()">
+                📲 Download Free App
+            </a>
+
+            <div class="features">
+                <div class="feature-tag">
+                    <span class="feature-icon">⚡</span>
+                    Instant Payouts
+                </div>
+                <div class="feature-tag">
+                    <span class="feature-icon">🎮</span>
+                    100+ Games
+                </div>
+                <div class="feature-tag">
+                    <span class="feature-icon">🎁</span>
+                    Daily Bonuses
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <div class="trust-badge">
+                    <span class="trustpilot-text">Over 50,000+ reviews on</span>
+                    <div class="stars">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="rating">(4.8)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <script>
-        function selectCountry(element, isEligible) {
-            // Track country selection
+        // Track prelander click and show lander
+        function selectCountry(element) {
+            // Track prelander click
             gtag('event', 'prelander_click', {
                 'event_category': 'funnel',
                 'event_label': 'country_selected'
             });
-            
+
             // Remove selected class from all options
             document.querySelectorAll('.country-option').forEach(option => {
                 option.classList.remove('selected');
@@ -640,16 +1115,27 @@
                     <div class="eligibility-icon">✓</div>
                     <span>You're Eligible!</span>
                 </div>
-                <p class="eligibility-subtitle">Redirecting...</p>
+                <p class="eligibility-subtitle">Loading offers...</p>
             `;
             eligibilityMessage.classList.add('visible');
             
             // Hide "different country" link
             document.getElementById('differentCountry').classList.add('hidden');
             
-            // Redirect after 1 second
+            // Transition to lander after 1 second
             setTimeout(() => {
-                window.location.href = 'https://play-lander.vercel.app';
+                // Track landing view
+                gtag('event', 'landing_view', {
+                    'event_category': 'funnel',
+                    'event_label': 'landing'
+                });
+
+                // Hide prelander, show lander
+                document.getElementById('prelander').classList.add('hidden');
+                document.getElementById('lander').classList.add('visible');
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
             }, 1000);
         }
 
@@ -671,12 +1157,42 @@
             `;
             eligibilityMessage.classList.add('visible');
             
-            // Hide continue button
-            document.getElementById('continueBtn').classList.remove('visible');
-            
             // Hide "different country" link
             document.getElementById('differentCountry').classList.add('hidden');
         }
+
+        // Track CTA click
+        function trackCTAClick() {
+            gtag('event', 'cta_click', {
+                'event_category': 'funnel',
+                'event_label': 'affiliate_click'
+            });
+        }
+        
+        // Generate floating coins
+        function createFloatingCoins() {
+            const coinsContainer = document.querySelector('.floating-coins');
+            const coinCount = 15;
+            
+            for (let i = 0; i < coinCount; i++) {
+                const coin = document.createElement('div');
+                coin.classList.add('floating-coin');
+                coin.style.left = Math.random() * 100 + '%';
+                coin.style.animationDuration = (Math.random() * 15 + 15) + 's';
+                coin.style.animationDelay = Math.random() * 5 + 's';
+                coin.style.width = (Math.random() * 10 + 15) + 'px';
+                coin.style.height = coin.style.width;
+                coinsContainer.appendChild(coin);
+            }
+        }
+
+        createFloatingCoins();
+
+        // Parse all emojis to Twemoji (iOS-style)
+        twemoji.parse(document.body, {
+            folder: 'svg',
+            ext: '.svg'
+        });
     </script>
 </body>
 </html>
